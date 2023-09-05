@@ -12,7 +12,7 @@ void slist_clone_test();
 
 
 /* Look, this may be really gross and incomprehensible, but it took no time to write and it works. 
- * Now I can be 90% sure the linked list works
+ * Now I can be 90% sure the linked list works. I will refactor this later...
  */
 int main(void) {
     slist_init_test();
@@ -24,16 +24,19 @@ int main(void) {
 }
 
 void slist_init_test() {
+    printf("=============== BEGIN slist_init_test ===============\n");
     struct slist *list = slist_init();
     assert(list != NULL);
     assert(list->head == NULL);
     assert(list->tail == NULL);
     assert(list->size == 0);
+    printf("=============== END slist_init_test ===============\n");
 
     slist_free(list, 0);
 }
 
 void slist_add_test() {
+    printf("=============== BEGIN slist_add_test ===============\n");
     struct slist *list = slist_init();
     assert(list != NULL);
     assert(list->head == NULL);
@@ -92,11 +95,13 @@ void slist_add_test() {
     curr = curr->next;
     assert(curr->data == &d);
     assert(curr->next == NULL);
+    printf("=============== END slist_add_test ===============\n");
 
     slist_free(list, 0);
 }
 
 void slist_remove_size_1() {
+    printf("=============== BEGIN slist_remove_size_1 ===============\n");
     struct slist *list = slist_init();
     int a = 5;
     slist_add(list, &a);
@@ -110,11 +115,13 @@ void slist_remove_size_1() {
     assert(list->head == NULL);
     assert(list->tail == NULL);
     assert(list->size == 0);
+    printf("=============== END slist_remove_size_1 ===============\n");
 
     slist_free(list, 0);
 }
 
 void slist_remove_size_2() {
+    printf("=============== BEGIN slist_remove_size_2 ===============\n");
     struct slist *list = slist_init();
     int a = 5;
     int b = 6;
@@ -146,11 +153,13 @@ void slist_remove_size_2() {
     assert(list->size == 1);
     assert(list->head->data == &b);
     assert(list->tail->data == &b);
+    printf("=============== END slist_remove_size_2 ===============\n");
 
     slist_free(list, 0);
 }
 
 void slist_remove_general() {
+    printf("=============== BEGIN slist_remove_general ===============\n");
     struct slist *list = slist_init();
     int a = 5;
     int b = 6;
@@ -191,6 +200,7 @@ void slist_remove_general() {
     assert(list->size == 2);
     assert(list->head->data == &b);
     assert(list->tail->data == &d);
+    printf("=============== END slist_remove_general ===============\n");
 
     slist_free(list, 0);
 }
@@ -202,6 +212,7 @@ void slist_remove_test() {
 }
 
 void slist_search_test() {
+    printf("=============== BEGIN slist_search_test ===============\n");
     struct slist *list = slist_init();
     int a = 5;
     int b = 6;
@@ -256,12 +267,14 @@ void slist_search_test() {
     int e = 9;
     found = slist_search(list, &e);
     assert(found == NULL);
+    printf("=============== END slist_search_test ===============\n");
 
     slist_free(list, 0);
 }
 
 
 void slist_clone_test() {
+    printf("=============== BEGIN slist_clone_test ===============\n");
     struct slist *list_original = slist_init();
     int a = 5;
     int b = 6;
@@ -279,12 +292,6 @@ void slist_clone_test() {
     assert(list_clone->head->data == &a);
     assert(list_clone->tail->data == &c);
 
-    printf("%p list clone\n", list_clone);
-    printf("%p list original\n", list_original);
-
-    printf("%p list clone head\n", list_clone->head);
-    printf("%p list original head\n", list_original->head);
-
     struct slist *list_clone_deep = slist_clone(list_original, 1, sizeof(int));
     assert(list_clone_deep != NULL);
     assert(list_clone_deep->head != NULL);
@@ -294,6 +301,7 @@ void slist_clone_test() {
     assert(*((int *)list_clone_deep->tail->data) == c);
     assert(list_clone_deep->head->data != list_original->head->data);
     assert(list_clone_deep->tail->data != list_original->tail->data);
+    printf("=============== END slist_clone_test ===============\n");
 
     slist_free(list_original, 0);
     slist_free(list_clone, 2);

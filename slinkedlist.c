@@ -73,6 +73,10 @@ struct snode *slist_search(struct slist *list, void *data) {
     return NULL;
 }
 
+/* This function is not defined in the header file because I think it's a bit
+ * too specific and messy. I don't see many uses for it outside the use of managing
+ * this list.
+ */
 void slist_get_previous_and_node(struct slist *list, void *data, struct snode **previous, struct snode **node) {
     if (list == NULL ||
             data == NULL)
@@ -102,39 +106,32 @@ void *slist_remove(struct slist *list, void *data) {
     if (list->head == NULL)
         return NULL;
 
-    struct snode *free_me = NULL;
+    struct snode *free_me = NULL; /* Node to be freed at the end */
     if (data == list->head->data) {
         free_me = list->head;
         list->head = list->head->next;
-        free_me->next = NULL;
         if (list->head == NULL) list->tail = NULL;
-    } else if (data == list->tail->data) {
-        struct snode *before_tail;
-        slist_get_previous_and_node(list, list->tail->data, &before_tail, NULL);
-        if (before_tail == NULL) return NULL;
-        free_me = list->tail;
-        before_tail->next = NULL;
-        list->tail = before_tail;
-    } else {
+    } else { /* General case, somewhere in the middle or tail */
         struct snode *prev;
         slist_get_previous_and_node(list, data, &prev, &free_me);
-        if (!free_me) return NULL;
+        if (free_me == NULL) return NULL; /* Not in list */
         prev->next = free_me->next;
-        free_me->next = NULL;
+        if (free_me == list->tail) list->tail = prev; /* If we're removing the tail */
     }
-    free(free_me); /* lol */
+    /* This should never be NULL, but just in case */
+    if (free_me != NULL) free(free_me); /* lol */
     list->size--;
     return data;
 }
 
 void slist_free(struct slist *list, char options) {
     if (list == NULL) return;
-    struct snode *curr = list->head;
-    struct snode *tmp;
     if (options & SLIST_DO_NOT_FREE_NODES) {
         free(list);
         return;
     }
+    struct snode *tmp, *curr;
+    curr = list->head;
     while (curr != NULL) {
         tmp = curr;
         if (options & SLIST_FREE_DATA &&
