@@ -24,7 +24,7 @@ struct snode {
 struct slist {
     struct snode *head;
     struct snode *tail;
-    size_t size;
+    size_t _size;
 };
 
 
@@ -33,7 +33,9 @@ struct slist {
 #define SLIST_NULL_DATA 2
 
 
-/* Inits a list. If NULL is returned, the list could not be allocated. */
+/* Inits a singly linked list. 
+ * @return: NULL if the list could not be allocated, otherwise a pointer to the list.
+ */
 struct slist *slist_init(void);
 
 /* Clones a list.
@@ -79,13 +81,15 @@ void *slist_remove(struct slist *list, void *data);
 #define SLIST_DO_NOT_FREE_NODES 0x2
 /* Frees the list and nodes by default, but this can be changed with options.
  * @param list: The list to free. Must not be NULL.
+ * @param free_data: A function that frees the data pointer. Can be NULL.
  * @param options: A bitfield of options. SLIST_FREE_DATA will free the data pointers,
  * SLIST_DO_NOT_FREE_NODES will not free the nodes.
  * @return: void
  * @note: The SLIST_DO_NOT_FREE_NODES option was added for scenarios where there is a shallow
  * copy of the list somewhere and you don't want to free the nodes.
+ * @note: If options has SLIST_FREE_DATA, free_data must not be NULL.
  */
-void slist_free(struct slist *list, char options);
+void slist_free(struct slist *list, void (*free_data)(void *data), char options);
 
 #ifdef __cplusplus
 }

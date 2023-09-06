@@ -29,10 +29,10 @@ void slist_init_test() {
     assert(list != NULL);
     assert(list->head == NULL);
     assert(list->tail == NULL);
-    assert(list->size == 0);
+    assert(list->_size == 0);
     printf("=============== END slist_init_test ===============\n");
 
-    slist_free(list, 0);
+    slist_free(list, NULL, 0);
 }
 
 void slist_add_test() {
@@ -41,7 +41,7 @@ void slist_add_test() {
     assert(list != NULL);
     assert(list->head == NULL);
     assert(list->tail == NULL);
-    assert(list->size == 0);
+    assert(list->_size == 0);
 
     int a = 1;
     int b = 2;
@@ -55,28 +55,28 @@ void slist_add_test() {
     slist_add(list, &a);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 1);
+    assert(list->_size == 1);
     assert(list->head->data == &a);
     assert(list->tail->data == &a);
 
     slist_add(list, &b);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 2);
+    assert(list->_size == 2);
     assert(list->head->data == &a);
     assert(list->tail->data == &b);
 
     slist_add(list, &c);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 3);
+    assert(list->_size == 3);
     assert(list->head->data == &a);
     assert(list->tail->data == &c);
 
     slist_add(list, &d);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 4);
+    assert(list->_size == 4);
     assert(list->head->data == &a);
     assert(list->tail->data == &d);
 
@@ -97,7 +97,7 @@ void slist_add_test() {
     assert(curr->next == NULL);
     printf("=============== END slist_add_test ===============\n");
 
-    slist_free(list, 0);
+    slist_free(list, NULL, 0);
 }
 
 void slist_remove_size_1() {
@@ -107,17 +107,17 @@ void slist_remove_size_1() {
     slist_add(list, &a);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 1);
+    assert(list->_size == 1);
     assert(list->head->data == &a);
     assert(list->tail->data == &a);
 
     slist_remove(list, &a);
     assert(list->head == NULL);
     assert(list->tail == NULL);
-    assert(list->size == 0);
+    assert(list->_size == 0);
     printf("=============== END slist_remove_size_1 ===============\n");
 
-    slist_free(list, 0);
+    slist_free(list, NULL, 0);
 }
 
 void slist_remove_size_2() {
@@ -129,33 +129,33 @@ void slist_remove_size_2() {
     slist_add(list, &b);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 2);
+    assert(list->_size == 2);
     assert(list->head->data == &a);
     assert(list->tail->data == &b);
 
     slist_remove(list, &a);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 1);
+    assert(list->_size == 1);
     assert(list->head->data == &b);
     assert(list->tail->data == &b);
 
     slist_add(list, &a);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 2);
+    assert(list->_size == 2);
     assert(list->head->data == &b);
     assert(list->tail->data == &a);
 
     slist_remove(list, &a);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 1);
+    assert(list->_size == 1);
     assert(list->head->data == &b);
     assert(list->tail->data == &b);
     printf("=============== END slist_remove_size_2 ===============\n");
 
-    slist_free(list, 0);
+    slist_free(list, NULL, 0);
 }
 
 void slist_remove_general() {
@@ -171,7 +171,7 @@ void slist_remove_general() {
     slist_add(list, &d);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 4);
+    assert(list->_size == 4);
     assert(list->head->data == &a);
     assert(list->tail->data == &d);
 
@@ -182,7 +182,7 @@ void slist_remove_general() {
     slist_remove(list, &a);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 3);
+    assert(list->_size == 3);
     assert(list->head->data == &b);
     assert(list->tail->data == &d);
 
@@ -190,19 +190,19 @@ void slist_remove_general() {
     slist_remove(list, &a);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 3);
+    assert(list->_size == 3);
     assert(list->head->data == &b);
     assert(list->tail->data == &d);
 
     slist_remove(list, &c);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 2);
+    assert(list->_size == 2);
     assert(list->head->data == &b);
     assert(list->tail->data == &d);
     printf("=============== END slist_remove_general ===============\n");
 
-    slist_free(list, 0);
+    slist_free(list, NULL, 0);
 }
 
 void slist_remove_test() {
@@ -224,7 +224,7 @@ void slist_search_test() {
     slist_add(list, &d);
     assert(list->head != NULL);
     assert(list->tail != NULL);
-    assert(list->size == 4);
+    assert(list->_size == 4);
     assert(list->head->data == &a);
     assert(list->tail->data == &d);
 
@@ -269,7 +269,7 @@ void slist_search_test() {
     assert(found == NULL);
     printf("=============== END slist_search_test ===============\n");
 
-    slist_free(list, 0);
+    slist_free(list, NULL, 0);
 }
 
 
@@ -288,7 +288,7 @@ void slist_clone_test() {
     assert(list_clone != NULL);
     assert(list_clone->head != NULL);
     assert(list_clone->tail != NULL);
-    assert(list_clone->size == 3);
+    assert(list_clone->_size == 3);
     assert(list_clone->head->data == &a);
     assert(list_clone->tail->data == &c);
 
@@ -296,13 +296,13 @@ void slist_clone_test() {
     assert(list_clone_deep != NULL);
     assert(list_clone_deep->head != NULL);
     assert(list_clone_deep->tail != NULL);
-    assert(list_clone_deep->size == 3);
+    assert(list_clone_deep->_size == 3);
     assert(*((int *)list_clone_deep->head->data) == a);
     assert(*((int *)list_clone_deep->tail->data) == c);
     assert(list_clone_deep->head->data != list_original->head->data);
     assert(list_clone_deep->tail->data != list_original->tail->data);
     printf("=============== END slist_clone_test ===============\n");
 
-    slist_free(list_original, 0);
-    slist_free(list_clone, 2);
+    slist_free(list_original, NULL, 0);
+    slist_free(list_clone, NULL, 2);
 }
