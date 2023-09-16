@@ -1,6 +1,6 @@
 .clangd
-tests/*.sh
-tests/test
+tests/bin/
+tests/obj/
 
 # Prerequisites
 *.d

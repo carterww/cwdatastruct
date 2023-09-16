@@ -1,12 +1,29 @@
-CC := gcc
+CC = gcc
 CFLAGS = -Wall
-INCLUDE = -I./include/
+INCDIR = -I./include/
 
-singlist: singlist.c
-	$(CC) $(INCLUDE) -c singlist.c $(CFLAGS)
+LIBDIR = ./lib
+SRCDIR = ./src
+OBJDIR = ./obj
 
-queue: queue.c singlist
-	$(CC) $(INCLUDE) -c queue.c $(CFLAGS)
+LIB = $(LIBDIR)/cwdatastruct.a
+SRCS = $(wildcard $(SRCDIR)/*.c)
+OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
+
+
+all: $(LIB)
+
+$(LIB): $(LIBDIR) $(OBJS)
+	ar -rc $@ $(OBJS)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(OBJDIR)
+	$(CC) $(CFLAGS) $(INCDIR) -c $< -o $@
 
 clean:
-	rm -rf *.o
+	rm -r $(OBJDIR)/* $(LIBDIR)/*
+
+$(OBJDIR):
+	mkdir $@
+
+$(LIBDIR):
+	mkdir $@
